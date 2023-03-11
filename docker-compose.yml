@@ -1,0 +1,54 @@
+version: "3"
+
+# DOCKER_DEFAULT_PLATFORM=linux/amd64
+# docker-compose run --rm api python3 manage.py [command]
+
+services:
+  frontend:
+    build:
+      context: ./octoinui
+      dockerfile: Dockerfile
+    
+    volumes:
+      - ./octoinui:/app
+      - /app/node_modules
+
+    ports:
+      - "5173:5173"
+
+    environment:
+      - VITE_GRAPHQL_ENDPOINT=http://api:8000/graphql
+
+  api:
+    build:
+      context: ./octoincore
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    volumes:
+      - ./octoincore:/app
+    ports:
+      - "8000:8000"
+
+    environment:
+      - DEBUG=1
+      - DJANGO_SECRET_KEY=secret
+      - ALLOWED_HOSTS=api,localhost
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:latest
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      
+      POSTGRES_PASSWORD: password
+      # POSTGRES_USER: octoin
+      POSTGRES_DB: octoin

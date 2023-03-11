@@ -1,0 +1,6 @@
+[submodule "octoincore"]
+	path = octoincore
+	url = https://github.com/oc7o/octoincore.git
+[submodule "octoinui"]
+	path = octoinui
+	url = https://github.com/oc7o/octoinui.git
