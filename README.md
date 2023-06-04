@@ -25,6 +25,13 @@ Currently broke
 
 Not production ready yet
 
+## Enivornment Variables
+TODO: move .env && .env.example to this repository and integrate through docker
+- GRAPHQL_ENDPOINT
+- DEBUG
+- 
+
+
 ## Useful Commands
 
 - Freeze the requirements:\
