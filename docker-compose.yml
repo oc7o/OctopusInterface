@@ -29,10 +29,8 @@ services:
     ports:
       - "8000:8000"
 
-    environment:
-      - DEBUG=1
-      - DJANGO_SECRET_KEY=secret
-      - ALLOWED_HOSTS=api,localhost
+    env_file:
+      - .env
 
     depends_on:
       db:
